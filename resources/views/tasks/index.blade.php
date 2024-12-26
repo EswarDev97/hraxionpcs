@@ -19,9 +19,9 @@
                 <tbody>
                     @foreach ($assignedTasks as $task)
                     <tr>
-                        <td>{{ $task->id }}</td>
+                        <td><a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-primary btn-sm">{{ $task->id }}</a></td>
                         <td>{{ $task->project->name }}</td>
-                        <td>{{ $task->name }}</td>
+                        <td>{{ $task->task_name }}</td>
                         <td>{{ $task->priority }}</td>
                         <td>{{ $task->status }}</td>
                     </tr>
@@ -50,9 +50,9 @@
                 <tbody>
                     @foreach ($createdTasks as $task)
                         <tr>
-                            <td>{{ $task->id }}</td>
+                            <td><a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-primary btn-sm">{{ $task->id }}</a></td>
                             <td>{{ $task->project->name }}</td>
-                            <td>{{ $task->name }}</td>
+                            <td>{{ $task->task_name }}</td>
                             <td>{{ $task->priority }}</td>
                             <td>{{ $task->status }}</td>
                         </tr>

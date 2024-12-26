@@ -25,10 +25,22 @@ class Attendance extends Model
     }
 
     public function paginate ($count = 10) {
-        if(auth()->user()->isAdmin()) {
-            return $this->with('employee', 'attendanceTime', 'attendanceType')->latest()->paginate($count);
+        $user = auth()->user();
+    
+        if ($user && $user->employee) {
+            // Check if the user is authenticated and has an associated employee
+            if ($user->isAdmin()) {
+                return $this->with('employee', 'attendanceTime', 'attendanceType')->latest()->paginate($count);
+            } else {
+                return $this->with('employee', 'attendanceTime', 'attendanceType')
+                    ->where('employee_id', $user->employee->id)
+                    ->latest()
+                    ->paginate($count);
+            }
         } else {
-            return $this->with('employee', 'attendanceTime', 'attendanceType')->where('employee_id', auth()->user()->employee->id)->latest()->paginate($count);
+            // Handle the case where the user or employee is not found
+            // You could return an empty pagination or throw an exception
+            return $this->latest()->paginate($count);  // Or handle as needed
         }
     }
 

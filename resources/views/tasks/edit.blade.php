@@ -100,13 +100,13 @@
             <div class="form-group">
                 <label for="completed_status">Completed Status</label>
                 <select class="form-control" id="completed_status" name="completed_status" value="{{ $task->completed_status }}" required>
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
+                    <option value="1" {{ $task->completed_status == '1' ? 'selected' : '' }}>Yes</option>
+                    <option value="0" {{ $task->completed_status == '0' ? 'selected' : '' }}>No</option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="comments">Comments</label>
-                <textarea class="form-control" id="comments" name="comments" value="{{ $task->comments }}" ></textarea>
+                <textarea class="form-control" id="comments" name="comments">{{ $task->comments }}</textarea>
             </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary px-5">Save</button>
