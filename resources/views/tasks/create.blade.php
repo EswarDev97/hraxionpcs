@@ -8,7 +8,7 @@
         <hr>
     </div>
   </div>
-  
+
   <div class="row">
     <div class="col-12 mb-3">
       <div class="bg-light text-dark card p-3 overflow-auto">
@@ -51,9 +51,9 @@
                 <div class="form-group">
                     <label for="status">Status</label>
                     <select class="form-control" id="status" name="status" required>
-                        <option value="completed">Completed</option>
                         <option value="not_started">Not Started</option>
                         <option value="in_progress">In Progress</option>
+                        <option value="completed">Completed</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -64,20 +64,20 @@
               <div class="col-md-6">
                 <div class="form-group">
                     <label for="efforts_estimate">Efforts Estimate</label>
-                    <input type="number" class="form-control" id="efforts_estimate" name="efforts_estimate" required>
+                    <input type="number" class="form-control" id="efforts_estimate" name="efforts_estimate">
                 </div>
                 <div class="form-group">
                     <label for="actual_efforts">Actual Efforts</label>
                     <input type="number" class="form-control" id="actual_efforts" name="actual_efforts">
                 </div>
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label for="assignee_id">Assignee</label>
                     <select class="form-control" id="assignee_id" name="assignee_id" required>
                         @foreach ($employees as $employee)
                         <option value="{{ $employee->id }}">{{ $employee->name }}</option>
                         @endforeach
                     </select>
-                </div>
+                </div> -->
                 <div class="form-group">
                     <label for="work_start_date">Work Start Date</label>
                     <input type="date" class="form-control" id="work_start_date" name="work_start_date">
@@ -89,8 +89,8 @@
                 <div class="form-group">
                     <label for="completed_status">Completed Status</label>
                     <select class="form-control" id="completed_status" name="completed_status" required>
-                        <option value="1">Yes</option>
                         <option value="0">No</option>
+                        <option value="1">Yes</option>
                     </select>
                 </div>
                 <div class="form-group">

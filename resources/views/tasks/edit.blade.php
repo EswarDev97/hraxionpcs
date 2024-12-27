@@ -59,9 +59,9 @@
                     <div class="form-group">
                         <label for="status">Status:</label>
                         <select id="status" class="form-control" name="status" required>
-                            <option value="completed" {{ $task->status == 'completed' ? 'selected' : '' }}>Completed</option>
                             <option value="not_started" {{ $task->status == 'not_started' ? 'selected' : '' }}>Not Started</option>
                             <option value="in_progress" {{ $task->status == 'in_progress' ? 'selected' : '' }}>In Progress</option>
+                            <option value="completed" {{ $task->status == 'completed' ? 'selected' : '' }}>Completed</option>
                         </select>
                     </div>
 
@@ -79,7 +79,7 @@
                         <label for="actual_efforts">Actual Efforts:</label>
                         <input type="number" name="actual_efforts" id="actual_efforts" class="form-control" value="{{ $task->actual_efforts }}">
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                 <label for="assignee_id">Assignee</label>
                 <select class="form-control" id="assignee_id" name="assignee_id" required>
                           @foreach ($employees as $employee)
@@ -88,7 +88,7 @@
                             </option>
                             @endforeach
                 </select>
-            </div>
+            </div> -->
             <div class="form-group">
                 <label for="work_start_date">Work Start Date</label>
                 <input type="date" class="form-control" id="work_start_date" name="work_start_date"  value="{{ $task->work_start_date }}">
@@ -100,8 +100,8 @@
             <div class="form-group">
                 <label for="completed_status">Completed Status</label>
                 <select class="form-control" id="completed_status" name="completed_status" value="{{ $task->completed_status }}" required>
-                    <option value="1" {{ $task->completed_status == '1' ? 'selected' : '' }}>Yes</option>
                     <option value="0" {{ $task->completed_status == '0' ? 'selected' : '' }}>No</option>
+                    <option value="1" {{ $task->completed_status == '1' ? 'selected' : '' }}>Yes</option>
                 </select>
             </div>
             <div class="form-group">

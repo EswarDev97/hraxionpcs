@@ -9,6 +9,7 @@ use App\Models\Task;
 use App\Models\Project;
 use App\Models\Employee;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
@@ -43,16 +44,18 @@ class TaskController extends Controller
             'priority' => 'required|in:high,medium,low',
             'status' => 'required|in:completed,not_started,in_progress',
             'expected_completion_date' => 'required|date',
-            'efforts_estimate' => 'required|integer',
+            'efforts_estimate' => 'nullable|integer',
             'actual_efforts' => 'nullable|integer',
-            'assignee_id' => 'required|exists:employees,id',
             'work_start_date' => 'nullable|date',
             'work_complete_date' => 'nullable|date',
             'completed_status' => 'required|boolean',
             'comments' => 'nullable|string',
         ]);
 
-        Task::create($request->all());
+        Task::create(array_merge(
+            $request->except('assignee_id'),
+            ['assignee_id' => Auth::id()]
+        ));
 
         return redirect()->route('tasks.index');
     }
@@ -80,9 +83,8 @@ class TaskController extends Controller
             'priority' => 'required|in:high,medium,low',
             'status' => 'required|in:completed,not_started,in_progress',
             'expected_completion_date' => 'required|date',
-            'efforts_estimate' => 'required|integer',
+            'efforts_estimate' => 'nullable|integer',
             'actual_efforts' => 'nullable|integer',
-            'assignee_id' => 'required|exists:employees,id',
             'work_start_date' => 'nullable|date',
             'work_complete_date' => 'nullable|date',
             'completed_status' => 'required|boolean',

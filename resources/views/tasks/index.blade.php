@@ -3,9 +3,10 @@
 @section('_content')
 
 <div class="container">
+    <a href="{{ route('tasks.create') }}" class="btn btn-primary mb-3">Create Task</a>
     <div class="row">
         <div class="col">
-            <h3>Tasks Assigned to Me</h3>
+            <h3>Tasks Created by Me</h3>
             <table class="table table-light table-striped table-hover table-bordered text-center">
                 <thead>
                     <tr>
@@ -32,11 +33,10 @@
 
     </div>
 
-
+    
     <div class="row">
         <div class="col">
-        <h3>Tasks Created by Me</h3>
-            <a href="{{ route('tasks.create') }}" class="btn btn-primary mb-3">Create Task</a>
+            <h3>Tasks Assigned to Me</h3>
             <table class="table table-light table-striped table-hover table-bordered text-center">
                 <thead>
                     <tr>
