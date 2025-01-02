@@ -301,7 +301,7 @@
             <div class="col-sm-12 col-lg-6">
               <div class="form-group">
                 <label for="basic_salary">Basic Salary:</label>
-                <input type="number" step="0.01" name="basic_salary" id="basic_salary" class="form-control @error('basic_salary') is-invalid @enderror" value="{{ old('basic_salary') }}" placeholder="Enter basic salary" required>
+                <input type="number" step="0.01" name="basic_salary" id="basic_salary" class="form-control @error('basic_salary') is-invalid @enderror" value="{{ $employee->basic_salary }}" placeholder="Enter basic salary" required>
               </div>
               @error('basic_salary')
               <div class="alert alert-danger">{{ $message }}</div>
@@ -310,7 +310,7 @@
             <div class="col-sm-12 col-lg-6">
               <div class="form-group">
                 <label for="variable_pay">Variable Pay:</label>
-                <input type="number" step="0.01" name="variable_pay" id="variable_pay" class="form-control @error('variable_pay') is-invalid @enderror" value="{{ old('variable_pay') }}" placeholder="Enter variable pay" required>
+                <input type="number" step="0.01" name="variable_pay" id="variable_pay" class="form-control @error('variable_pay') is-invalid @enderror" value="{{ $employee->variable_pay }}" placeholder="Enter variable pay" required>
               </div>
               @error('variable_pay')
               <div class="alert alert-danger">{{ $message }}</div>

@@ -186,9 +186,9 @@ class EmployeesController extends Controller
                         'work_experience_in_years' => $request->input('work_experience_in_years'),
                     ]);
 
-        Log::create([
-            'description' => auth()->user()->employee->name . " updated an employee's detail named '" . $employee->name . "'"
-        ]);
+                    Log::create([
+                        'description' => auth()->user()->employee ? auth()->user()->employee->name . " updated an employee's detail named '" . $employee->name . "'" : "Unknown user updated an employee's detail named '" . $employee->name . "'"
+                    ]);
 
         return redirect()->route('employees-data')->with('status', 'Successfully updated an employee.');
     }
