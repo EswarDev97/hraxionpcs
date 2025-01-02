@@ -106,7 +106,13 @@
                             <td class="text-left">
                                 <a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-primary btn-sm">{{ $task->id }}</a>
                             </td>
-                            <td class="text-left">{{ $task->project->name }}</td>
+                            <td class="text-left">
+                                @if($task->project)
+                                    {{ $task->project->name }}
+                                @else
+                                    No Project Assigned
+                                @endif
+                            </td>
                             <td class="text-left">{{ $task->task_name }}</td>
                             <td class="text-left">
                                 @foreach ($allEmployees as $employee)
@@ -147,7 +153,13 @@
                     @foreach ($assignedTasks as $task)
                     <tr>
                         <td class="text-left"><a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-primary btn-sm">{{ $task->id }}</a></td>
-                        <td class="text-left">{{ $task->project->name }}</td>
+                        <td class="text-left">
+                            @if($task->project)
+                                {{ $task->project->name }}
+                            @else
+                                No Project Assigned
+                            @endif
+                        </td>
                         <td class="text-left">{{ $task->task_name }}</td>
                         <td class="text-left" class="text-left">
                             @foreach ($allEmployees as $employee)
