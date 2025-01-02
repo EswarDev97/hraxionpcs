@@ -59,7 +59,7 @@
           <div class="col-sm-12 col-lg-6">
             <div class="form-group">
               <label for="department_id">Department:</label>
-              <input type="text" name="department_id" id="department_id" class="form-control-plaintext" readonly value="{{ $employee->department->name }}">
+              <input type="text" name="department_id" id="department_id" class="form-control-plaintext" readonly readonly value="{{ $employee->department ? $employee->department->name : 'No department' }}">
             </div>
           </div>
           <div class="col-sm-12 col-lg-6">
