@@ -36,6 +36,35 @@ class DashboardController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+    // public function index()
+    // {
+    //     $announcements = $this->announcements->paginate();
+    //     $employeesCount = $this->employees->getCount();
+    //     $recruitmentCandidatesCount = $this->recruitmentCandidates->getCount();
+    //     $endingEmployees = $this->employees->getEndingContractEmployees();
+    //     $user = auth()->user();
+    //     $assignedTasks = Task::where('assignee_id', $user->id)->get();
+    //     $createdTasks = Task::where('resource_assigned_to', $user->id)->get();
+    //     $allEmployees = Employee::all();
+
+    //     $attendanceTimesId = AttendanceTime::whereIn("name", ["IN", "OUT"])
+    //         ->get()
+    //         ->map(function ($item) {
+    //             return $item->id;
+    //         });
+
+    //     // Check if the user has an associated employee record
+    //     $checkForAttendance = false; // Default to false
+    //     if ($user->employee) {
+    //         $checkForAttendance = Attendance::whereBetween('created_at', [Carbon::today('Asia/Jakarta'), Carbon::tomorrow('Asia/Jakarta')])
+    //             ->where('employee_id', $user->employee->id)
+    //             ->whereIn('attendance_time_id', $attendanceTimesId)
+    //             ->exists();
+    //     }
+
+    //     return view('pages.dashboard', compact('announcements', 'employeesCount', 'recruitmentCandidatesCount', 'endingEmployees', 'checkForAttendance','assignedTasks','createdTasks', 'allEmployees'));
+    // }
+
     public function index()
     {
         $announcements = $this->announcements->paginate();
@@ -45,19 +74,24 @@ class DashboardController extends Controller
         $user = auth()->user();
         $assignedTasks = Task::where('assignee_id', $user->id)->get();
         $createdTasks = Task::where('resource_assigned_to', $user->id)->get();
-
-        return view('tasks.index', compact('assignedTasks', 'createdTasks'));
+        $allEmployees = Employee::all();
+        // return view('tasks.index', compact('assignedTasks', 'createdTasks'));
         $attendanceTimesId = AttendanceTime::whereIn("name", ["IN", "OUT"])
                                 ->get()
                                 ->map(function($item) {
                                     return $item->id;
                                 });
 
-        $checkForAttendance = Attendance::whereBetween('created_at', [Carbon::today('Asia/Jakarta'), Carbon::tomorrow('Asia/Jakarta')])
-                                ->where('employee_id', auth()->user()->employee->id)
-                                ->whereIn('attendance_time_id', $attendanceTimesId)
-                                ->exists();
+        $checkForAttendance = false; // Default value in case there is no associated employee
 
-        return view('pages.dashboard', compact('announcements', 'employeesCount', 'recruitmentCandidatesCount', 'endingEmployees', 'checkForAttendance','assignedTasks','createdTasks'));
+        if (auth()->user()->employee) {
+            $checkForAttendance = Attendance::whereBetween('created_at', [Carbon::today('Asia/Jakarta'), Carbon::tomorrow('Asia/Jakarta')])
+                ->where('employee_id', auth()->user()->employee->id)
+                ->whereIn('attendance_time_id', $attendanceTimesId)
+                ->exists();
+        }
+
+        return view('pages.dashboard', compact('announcements', 'employeesCount', 'recruitmentCandidatesCount', 'endingEmployees', 'checkForAttendance','assignedTasks','createdTasks', 'allEmployees'));
     }
+
 }

@@ -91,29 +91,41 @@
             <table class="table table-light table-striped table-hover table-bordered text-center">
                 <thead>
                     <tr>
-                        <th scope="col" class="table-dark">ID</th>
-                        <th scope="col" class="table-dark">Project</th>
-                        <th scope="col" class="table-dark">Task Name</th>
-                        <th scope="col" class="table-dark">Priority</th>
-                        <th scope="col" class="table-dark">Status</th>
+                        <th scope="col" class="table-dark text-left">ID</th>
+                        <th scope="col" class="table-dark text-left">Project</th>
+                        <th scope="col" class="table-dark text-left">Task Name</th>
+                        <th scope="col" class="table-dark text-left">Resource Assigned To</th>
+                        <th scope="col" class="table-dark text-left">Expected Completion Date</th>
+                        <th scope="col" class="table-dark text-left">Priority</th>
+                        <th scope="col" class="table-dark text-left">Status</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($assignedTasks as $task)
-                    <tr>
-                        <td>{{ $task->id }}</td>
-                        <td>{{ $task->project->name }}</td>
-                        <td>{{ $task->name }}</td>
-                        <td>{{ $task->priority }}</td>
-                        <td>{{ $task->status }}</td>
-                    </tr>
+                    @foreach ($createdTasks as $task)
+                        <tr>
+                            <td class="text-left">
+                                <a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-primary btn-sm">{{ $task->id }}</a>
+                            </td>
+                            <td class="text-left">{{ $task->project->name }}</td>
+                            <td class="text-left">{{ $task->task_name }}</td>
+                            <td class="text-left">
+                                @foreach ($allEmployees as $employee)
+                                    @if ($employee->id == $task->resource_assigned_to)
+                                        {{ $employee->name }}
+                                        @break
+                                    @endif
+                                @endforeach   
+                            </td>
+                            </td>
+                            <td class="text-left">{{ $task->expected_completion_date }}</td>
+                            <td class="text-left">{{ $task->priority }}</td>
+                            <td class="text-left">{{ $task->status }}</td>
+                        </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
-
     </div>
-
 
     <div class="row">
         <div class="col">
@@ -122,31 +134,38 @@
             <table class="table table-light table-striped table-hover table-bordered text-center">
                 <thead>
                     <tr>
-                        <th scope="col" class="table-dark">ID</th>
-                        <th scope="col" class="table-dark">Project</th>
-                        <th scope="col" class="table-dark">Task Name</th>
-                        <th scope="col" class="table-dark">Priority</th>
-                        <th scope="col" class="table-dark">Status</th>
+                        <th scope="col" class="table-dark text-left">ID</th>
+                        <th scope="col" class="table-dark text-left">Project</th>
+                        <th scope="col" class="table-dark text-left">Task Name</th>
+                        <th scope="col" class="table-dark text-left">Resource Assigned To</th>
+                        <th scope="col" class="table-dark text-left">Expected Completion Date</th>
+                        <th scope="col" class="table-dark text-left">Priority</th>
+                        <th scope="col" class="table-dark text-left">Status</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($createdTasks as $task)
-                        <tr>
-                            <td>{{ $task->id }}</td>
-                            <td>{{ $task->project->name }}</td>
-                            <td>{{ $task->name }}</td>
-                            <td>{{ $task->priority }}</td>
-                            <td>{{ $task->status }}</td>
-                        </tr>
+                    @foreach ($assignedTasks as $task)
+                    <tr>
+                        <td class="text-left"><a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-primary btn-sm">{{ $task->id }}</a></td>
+                        <td class="text-left">{{ $task->project->name }}</td>
+                        <td class="text-left">{{ $task->task_name }}</td>
+                        <td class="text-left" class="text-left">
+                            @foreach ($allEmployees as $employee)
+                                @if ($employee->id == $task->resource_assigned_to)
+                                    {{ $employee->name }}
+                                    @break
+                                @endif
+                            @endforeach   
+                        </td>
+                        <td class="text-left">{{ $task->expected_completion_date }}</td>
+                        <td class="text-left">{{ $task->priority }}</td>
+                        <td class="text-left">{{ $task->status }}</td>
+                    </tr>
                     @endforeach
                 </tbody>
             </table>
-
-
         </div>
-
     </div>
-
 
 </div>
 </div>

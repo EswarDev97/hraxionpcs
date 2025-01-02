@@ -19,10 +19,10 @@ class TaskController extends Controller
         // return view('tasks.index', compact('tasks'));
 
         $user = auth()->user();
-        $assignedTasks = Task::where('assignee_id', $user->id)->get();
-        $createdTasks = Task::where('resource_assigned_to', $user->id)->get();
-
-        return view('tasks.index', compact('assignedTasks', 'createdTasks'));
+        $assignedTasks = Task::where('assignee_id', $user->id)->paginate(10);
+        $createdTasks = Task::where('resource_assigned_to', $user->id)->paginate(10);
+        $employees = Employee::all();
+        return view('tasks.index', compact('assignedTasks', 'createdTasks', 'employees'));
 
 
     }
