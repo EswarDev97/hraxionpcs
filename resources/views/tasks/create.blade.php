@@ -51,9 +51,17 @@
                 <div class="form-group">
                     <label for="status">Status</label>
                     <select class="form-control" id="status" name="status" required>
-                        <option value="not_started">Not Started</option>
-                        <option value="in_progress">In Progress</option>
-                        <option value="completed">Completed</option>
+                  
+                          @if($task->status == 'completed')
+                               <option value="completed" selected>Completed</option>
+                               <option value="closed">Closed</option>
+                            @else
+                                <option value="not_started" {{ $task->status == 'not_started' ? 'selected' : '' }}>Not Started</option>
+                                 <option value="in_progress" {{ $task->status == 'in_progress' ? 'selected' : '' }}>In Progress</option>
+                                 <option value="completed" {{ $task->status == 'completed' ? 'selected' : '' }}>Completed</option>
+
+                          @endif
+                  
                     </select>
                 </div>
                 <div class="form-group">

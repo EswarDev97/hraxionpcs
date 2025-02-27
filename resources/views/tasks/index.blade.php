@@ -22,6 +22,7 @@
                 <tbody>
                     @foreach ($assignedTasks as $task)
                     <tr>
+                        @if($task->status !='closed') 
                         <td class="text-left">
                             <a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-primary btn-sm">{{ $task->id }}</a>
                         </td>
@@ -45,6 +46,7 @@
                         <td class="text-left">{{ $task->priority }}</td>
                         <td class="text-left">{{ $task->status }}</td>
                     </tr>
+                    @endif
                     @endforeach
                 </tbody>
             </table>
@@ -71,6 +73,7 @@
                 </thead>
                 <tbody>
                     @foreach ($createdTasks as $task)
+                    @if($task->status !='closed') 
                         <tr>
                             <td class="text-left">
                                 <a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-primary btn-sm">{{ $task->id }}</a>
@@ -95,6 +98,7 @@
                             <td class="text-left">{{ $task->priority }}</td>
                             <td class="text-left">{{ $task->status }}</td>
                         </tr>
+                        @endif
                     @endforeach
                 </tbody>
             </table>

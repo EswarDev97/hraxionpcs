@@ -58,10 +58,15 @@
 
                     <div class="form-group">
                         <label for="status">Status:</label>
-                        <select id="status" class="form-control" name="status" required>
+                        <select class="form-control" id="status" name="status" required>
+                            @if($task->status == 'completed')
+                            <option value="completed" selected>Completed</option>
+                            <option value="closed">Closed</option>
+                            @else
                             <option value="not_started" {{ $task->status == 'not_started' ? 'selected' : '' }}>Not Started</option>
                             <option value="in_progress" {{ $task->status == 'in_progress' ? 'selected' : '' }}>In Progress</option>
                             <option value="completed" {{ $task->status == 'completed' ? 'selected' : '' }}>Completed</option>
+                            @endif
                         </select>
                     </div>
 
@@ -89,25 +94,25 @@
                             @endforeach
                 </select>
             </div> -->
-            <div class="form-group">
-                <label for="work_start_date">Work Start Date</label>
-                <input type="date" class="form-control" id="work_start_date" name="work_start_date"  value="{{ $task->work_start_date }}">
-            </div>
-            <div class="form-group">
-                <label for="work_complete_date">Work Complete Date</label>
-                <input type="date" class="form-control" id="work_complete_date" name="work_complete_date" value="{{ $task->work_complete_date }}" >
-            </div>
-            <div class="form-group">
-                <label for="completed_status">Completed Status</label>
-                <select class="form-control" id="completed_status" name="completed_status" value="{{ $task->completed_status }}" required>
-                    <option value="0" {{ $task->completed_status == '0' ? 'selected' : '' }}>No</option>
-                    <option value="1" {{ $task->completed_status == '1' ? 'selected' : '' }}>Yes</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="comments">Comments</label>
-                <textarea class="form-control" id="comments" name="comments">{{ $task->comments }}</textarea>
-            </div>
+                    <div class="form-group">
+                        <label for="work_start_date">Work Start Date</label>
+                        <input type="date" class="form-control" id="work_start_date" name="work_start_date" value="{{ $task->work_start_date }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="work_complete_date">Work Complete Date</label>
+                        <input type="date" class="form-control" id="work_complete_date" name="work_complete_date" value="{{ $task->work_complete_date }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="completed_status">Completed Status</label>
+                        <select class="form-control" id="completed_status" name="completed_status" value="{{ $task->completed_status }}" required>
+                            <option value="0" {{ $task->completed_status == '0' ? 'selected' : '' }}>No</option>
+                            <option value="1" {{ $task->completed_status == '1' ? 'selected' : '' }}>Yes</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="comments">Comments</label>
+                        <textarea class="form-control" id="comments" name="comments">{{ $task->comments }}</textarea>
+                    </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary px-5">Save</button>
                     </div>
