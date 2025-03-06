@@ -72,8 +72,8 @@ class DashboardController extends Controller
         $recruitmentCandidatesCount = $this->recruitmentCandidates->getCount();
         $endingEmployees = $this->employees->getEndingContractEmployees();
         $user = auth()->user();
-        $assignedTasks = Task::where('assignee_id', $user->id)->get();
-        $createdTasks = Task::where('resource_assigned_to', $user->id)->get();
+        $assignedTasks = Task::where('assignee_id', $user->id)->paginate(10);
+        $createdTasks = Task::where('resource_assigned_to', $user->id)->paginate(10);
         $allEmployees = Employee::all();
         // return view('tasks.index', compact('assignedTasks', 'createdTasks'));
         $attendanceTimesId = AttendanceTime::whereIn("name", ["IN", "OUT"])

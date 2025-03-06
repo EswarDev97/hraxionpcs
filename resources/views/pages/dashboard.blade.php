@@ -1,67 +1,67 @@
 @extends('layouts.admin', ['accesses' => $accesses, 'active' => 'dashboard'])
 
 @section('_content')
-    <div class="container-fluid mt-2 px-4">
-        <div class="row">
-            <div class="col-12">
-                <h4 class="font-weight-bold">Dashboard</h4>
-                <hr>
+<div class="container-fluid mt-2 px-4">
+    <div class="row">
+        <div class="col-12">
+            <h4 class="font-weight-bold">Dashboard</h4>
+            <hr>
+        </div>
+    </div>
+
+    @if (!$checkForAttendance)
+    <div class="alert alert-warning">
+        <h5 class="font-weight-bold">Don't forget to check in / out !</h5>
+    </div>
+    @endif
+
+    @if (auth()->user()->isAdmin())
+    <div class="row">
+        <div class="col-sm-12 col-lg-6 mb-3">
+            <div class="bg-light text-dark d-flex flex-column justify-content-center align-items-center py-5 card">
+                <h4>Total Employees</h4>
+                <h1>{{ $employeesCount }}</h1>
             </div>
         </div>
-
-        @if (!$checkForAttendance)
-            <div class="alert alert-warning">
-                <h5 class="font-weight-bold">Don't forget to check in / out !</h5>
+        <div class="col-sm-12 col-lg-6 mb-3">
+            <div class="bg-light text-dark d-flex flex-column justify-content-center align-items-center py-5 card">
+                <h4>Job Applicants</h4>
+                <h1>{{ $recruitmentCandidatesCount }}</h1>
             </div>
-        @endif
+        </div>
+    </div>
 
-        @if (auth()->user()->isAdmin())
-            <div class="row">
-                <div class="col-sm-12 col-lg-6 mb-3">
-                    <div class="bg-light text-dark d-flex flex-column justify-content-center align-items-center py-5 card">
-                        <h4>Total Employees</h4>
-                        <h1>{{ $employeesCount }}</h1>
-                    </div>
-                </div>
-                <div class="col-sm-12 col-lg-6 mb-3">
-                    <div class="bg-light text-dark d-flex flex-column justify-content-center align-items-center py-5 card">
-                        <h4>Job Applicants</h4>
-                        <h1>{{ $recruitmentCandidatesCount }}</h1>
-                    </div>
-                </div>
+    <div class="row">
+        <div class="col-12 mb-3">
+            <div class="bg-light text-dark card p-3 scrollable">
+                <h4 class="font-weight-bold">Contract ends soon</h4>
+                <table class="table table-light table-striped table-hover table-bordered text-center">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="table-dark">#</th>
+                            <th scope="col" class="table-dark">Name</th>
+                            <th scope="col" class="table-dark">Contract ends on</th>
+                            <th scope="col" class="table-dark">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($endingEmployees as $employee)
+                        <tr>
+                            <th scope="row">{{ $loop->iteration + $endingEmployees->firstItem() - 1 }}</th>
+                            <td>{{ optional($employee)->name }}</td>
+                            <td>{{ $employee->end_of_contract }}</td>
+                            <td><a href="{{ route('employees-data.edit', ['employee' => $employee->id]) }}"
+                                    class="btn btn-outline-dark">Renew</a></td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+
+                {{ $endingEmployees->links() }}
             </div>
-
-            <div class="row">
-                <div class="col-12 mb-3">
-                    <div class="bg-light text-dark card p-3 scrollable">
-                        <h4 class="font-weight-bold">Contract ends soon</h4>
-                        <table class="table table-light table-striped table-hover table-bordered text-center">
-                            <thead>
-                                <tr>
-                                    <th scope="col" class="table-dark">#</th>
-                                    <th scope="col" class="table-dark">Name</th>
-                                    <th scope="col" class="table-dark">Contract ends on</th>
-                                    <th scope="col" class="table-dark">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($endingEmployees as $employee)
-                                    <tr>
-                                        <th scope="row">{{ $loop->iteration + $endingEmployees->firstItem() - 1 }}</th>
-                                        <td>{{ optional($employee)->name }}</td>
-                                        <td>{{ $employee->end_of_contract }}</td>
-                                        <td><a href="{{ route('employees-data.edit', ['employee' => $employee->id]) }}"
-                                                class="btn btn-outline-dark">Renew</a></td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-
-                        {{ $endingEmployees->links() }}
-                    </div>
-                </div>
-            </div>
-            {{-- 
+        </div>
+    </div>
+    {{--
     <div class="row">
       <div class="col-6 mb-3">
         <div class="bg-light text-dark card p-3">
@@ -78,132 +78,118 @@
         </div>
       </div>
     </div> --}}
-        @endif
+    @endif
 
-        <div class="row">
-            <div class="col-12 mb-3">
-                <div class="bg-light text-dark p-3 card scrollable">
-                    <h3>TASKS</h3>
-                    <div class="container">
+    <div class="row">
+        <div class="col-12 mb-3">
+            <div class="bg-light text-dark p-3 card scrollable">
+                <h3>TASKS</h3>
+                <div class="container">
+
+
     <div class="row">
         <div class="col">
-            <h3>Tasks Assigned to Me</h3>
-            <table class="table table-light table-striped table-hover table-bordered text-center">
-                <thead>
-                    <tr>
-                        <th scope="col" class="table-dark text-left">ID</th>
-                        <th scope="col" class="table-dark text-left">Project</th>
-                        <th scope="col" class="table-dark text-left">Task Name</th>
-                        <th scope="col" class="table-dark text-left">Resource Assigned To</th>
-                        <th scope="col" class="table-dark text-left">Expected Completion Date</th>
-                        <th scope="col" class="table-dark text-left">Priority</th>
-                        <th scope="col" class="table-dark text-left">Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($createdTasks as $task)
+            <h3>Tasks Created by Me</h3>
+            @if (auth()->user()->isAdmin())
+            <button class="btn btn-secondary mb-2" onclick="toggleClosedTasks()">Show Closed Tasks</button>
+            @endif
+            <div class="table-responsive">
+                <table class="table table-light table-striped table-hover table-bordered text-center">
+                    <thead>
                         <tr>
+                            <th scope="col" class="table-dark text-left">ID</th>
+                            <th scope="col" class="table-dark text-left">Project</th>
+                            <th scope="col" class="table-dark text-left">Task Name</th>
+                            <th scope="col" class="table-dark text-left">Resource Assigned To</th>
+                            <th scope="col" class="table-dark text-left">Expected Completion Date</th>
+                            <th scope="col" class="table-dark text-left">Priority</th>
+                            <th scope="col" class="table-dark text-left">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($createdTasks as $task)
+                        <tr class="{{ $task->status == 'closed' ? 'closed-task' : '' }}" style="display: {{ $task->status == 'closed' ? 'none' : '' }}">
                             <td class="text-left">
                                 <a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-primary btn-sm">{{ $task->id }}</a>
                             </td>
-                            <td class="text-left">
-                                @if($task->project)
-                                    {{ $task->project->name }}
-                                @else
-                                    No Project Assigned
-                                @endif
-                            </td>
+                            <td class="text-left">{{ $task->project->name ?? 'No Project Assigned' }}</td>
                             <td class="text-left">{{ $task->task_name }}</td>
-                            <td class="text-left">
-                                @foreach ($allEmployees as $employee)
-                                    @if ($employee->id == $task->resource_assigned_to)
-                                        {{ $employee->name }}
-                                        @break
-                                    @endif
-                                @endforeach   
-                            </td>
-                            </td>
+                            <td class="text-left">{{ $task->assignedEmployee->name ?? 'Not Assigned' }}</td>
                             <td class="text-left">{{ $task->expected_completion_date }}</td>
                             <td class="text-left">{{ $task->priority }}</td>
                             <td class="text-left">{{ $task->status }}</td>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- {{ $createdTasks->links() }} Pagination -->
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-        <h3>Tasks Created by Me</h3>
-            
-            <table class="table table-light table-striped table-hover table-bordered text-center">
-                <thead>
-                    <tr>
-                        <th scope="col" class="table-dark text-left">ID</th>
-                        <th scope="col" class="table-dark text-left">Project</th>
-                        <th scope="col" class="table-dark text-left">Task Name</th>
-                        <th scope="col" class="table-dark text-left">Resource Assigned To</th>
-                        <th scope="col" class="table-dark text-left">Expected Completion Date</th>
-                        <th scope="col" class="table-dark text-left">Priority</th>
-                        <th scope="col" class="table-dark text-left">Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($assignedTasks as $task)
-                    <tr>
-                        <td class="text-left"><a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-primary btn-sm">{{ $task->id }}</a></td>
-                        <td class="text-left">
-                            @if($task->project)
-                                {{ $task->project->name }}
-                            @else
-                                No Project Assigned
-                            @endif
-                        </td>
-                        <td class="text-left">{{ $task->task_name }}</td>
-                        <td class="text-left" class="text-left">
-                            @foreach ($allEmployees as $employee)
-                                @if ($employee->id == $task->resource_assigned_to)
-                                    {{ $employee->name }}
-                                    @break
-                                @endif
-                            @endforeach   
-                        </td>
-                        <td class="text-left">{{ $task->expected_completion_date }}</td>
-                        <td class="text-left">{{ $task->priority }}</td>
-                        <td class="text-left">{{ $task->status }}</td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-</div>
-</div>
-
-                    {{ $announcements->links() }}
-                </div>
+            <h3>Tasks Assigned to Me</h3>
+            <div class="table-responsive">
+                <table class="table table-light table-striped table-hover table-bordered text-center">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="table-dark text-left">ID</th>
+                            <th scope="col" class="table-dark text-left">Project</th>
+                            <th scope="col" class="table-dark text-left">Task Name</th>
+                            <th scope="col" class="table-dark text-left">Resource Assigned To</th>
+                            <th scope="col" class="table-dark text-left">Expected Completion Date</th>
+                            <th scope="col" class="table-dark text-left">Priority</th>
+                            <th scope="col" class="table-dark text-left">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($assignedTasks as $task)
+                        <tr class="{{ $task->status == 'closed' ? 'closed-task' : '' }}" style="display: {{ $task->status == 'closed' ? 'none' : '' }}">
+                            <td class="text-left">
+                                <a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-primary btn-sm">{{ $task->id }}</a>
+                            </td>
+                            <td class="text-left">{{ $task->project->name ?? 'No Project Assigned' }}</td>
+                            <td class="text-left">{{ $task->task_name }}</td>
+                            <td class="text-left">{{ $task->assignedEmployee->name ?? 'Not Assigned' }}</td>
+                            <td class="text-left">{{ $task->expected_completion_date }}</td>
+                            <td class="text-left">{{ $task->priority }}</td>
+                            <td class="text-left">{{ $task->status }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
+
+            <!-- {{ $assignedTasks->links() }} Pagination -->
         </div>
     </div>
+</div>
+            </div>
+
+            {{ $announcements->links() }}
+        </div>
+    </div>
+</div>
+</div>
 @endsection
 
 @section('script')
-    <!-- Charting library -->
-    <script src="https://unpkg.com/echarts/dist/echarts.min.js"></script>
-    <!-- Chartisan -->
-    <script src="https://unpkg.com/@chartisan/echarts/dist/chartisan_echarts.js"></script>
-    <!-- Your application script -->
-    <script>
-        const attendancesChart = new Chartisan({
-            el: '#attendances-chart',
-            url: "@chart('attendances_chart')",
-        });
+<!-- Charting library -->
+<script src="https://unpkg.com/echarts/dist/echarts.min.js"></script>
+<!-- Chartisan -->
+<script src="https://unpkg.com/@chartisan/echarts/dist/chartisan_echarts.js"></script>
+<!-- Your application script -->
+<script>
+    const attendancesChart = new Chartisan({
+        el: '#attendances-chart',
+        url: "@chart('attendances_chart')",
+    });
 
-        const performanceChart = new Chartisan({
-            el: '#performance-chart',
-            url: "@chart('performance_chart')",
-        });
-    </script>
+    const performanceChart = new Chartisan({
+        el: '#performance-chart',
+        url: "@chart('performance_chart')",
+    });
+</script>
 @endsection

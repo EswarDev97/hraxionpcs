@@ -60,8 +60,8 @@
                         <label for="status">Status:</label>
                         <select class="form-control" id="status" name="status" required>
                             @if($task->status == 'completed')
-                            <option value="completed" selected>Completed</option>
-                            <option value="closed">Closed</option>
+                            <option value="completed" {{ $task->status == 'completed' ? 'selected' : '' }}>Completed</option>
+                            <option value="closed"{{ $task->status == 'closed' ? 'selected' : '' }}>Closed</option>
                             @else
                             <option value="not_started" {{ $task->status == 'not_started' ? 'selected' : '' }}>Not Started</option>
                             <option value="in_progress" {{ $task->status == 'in_progress' ? 'selected' : '' }}>In Progress</option>

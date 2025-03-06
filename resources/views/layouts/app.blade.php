@@ -29,7 +29,7 @@
             @yield('content')
         </main>
         <footer class="text-center my-3 text-muted">
-            Copyright &copy; 2024 Axion. All rights reserved.
+            Copyright &copy; 2025 Axion. All rights reserved.
         </footer>
     </div>
 </html>
