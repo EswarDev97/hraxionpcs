@@ -12,16 +12,20 @@
         }
 
         .tree-container {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    overflow-x: auto; /* Enable horizontal scrolling */
+    max-width: 100vw; /* Ensure it doesn't exceed viewport width */
+    padding: 10px; /* Add some padding */
+}
 
-        .tree {
-            display: inline-block;
-            white-space: nowrap;
-        }
+.tree {
+    display: inline-block;
+    white-space: nowrap;
+    min-width: 800px; /* Adjust based on content */
+}
 
         .tree ul {
             display: flex;

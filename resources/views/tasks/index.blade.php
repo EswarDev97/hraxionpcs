@@ -3,13 +3,24 @@
 @section('_content')
 
 <div class="container">
-    <a href="{{ route('tasks.create') }}" class="btn btn-primary mb-3">Create Task</a>
+    <div class="d-flex gap-2">
+        <a href="{{ route('tasks.create') }}" class="btn btn-primary" style="font-weight: bold; padding: 10px 20px; border-radius: 10px;">
+            <i class="fas fa-plus"></i> Create Task
+        </a>
+    </div>
+    <br>
+    <div>
+        <a href="{{ route('tasks.index', ['show_closed' => $showClosed ? 0 : 1]) }}"
+            class="btn {{ $showClosed ? 'btn-danger' : 'btn-success' }}"
+            style="font-weight: bold; padding: 10px 20px; border-radius: 10px;">
+            <i class="fas {{ $showClosed ? 'fa-eye-slash' : 'fa-eye' }}"></i>
+            {{ $showClosed ? 'Hide Closed Tasks' : 'Show Closed Tasks' }}
+        </a>
+    </div>
 
     <div class="row">
         <div class="col">
             <h3>Tasks Created by Me</h3>
-            <button class="btn btn-secondary mb-2" onclick="toggleClosedTasks()">Show Closed Tasks</button>
-
             <div class="table-responsive">
                 <table class="table table-light table-striped table-hover table-bordered text-center">
                     <thead>
@@ -25,7 +36,7 @@
                     </thead>
                     <tbody>
                         @foreach ($createdTasks as $task)
-                        <tr class="{{ $task->status == 'closed' ? 'closed-task' : '' }}" style="display: {{ $task->status == 'closed' ? 'none' : '' }}">
+                        <tr>
                             <td class="text-left">
                                 <a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-primary btn-sm">{{ $task->id }}</a>
                             </td>
@@ -40,8 +51,7 @@
                     </tbody>
                 </table>
             </div>
-
-            {{ $createdTasks->links() }} <!-- Pagination -->
+            {{ $createdTasks->links() }}
         </div>
     </div>
 
@@ -63,7 +73,7 @@
                     </thead>
                     <tbody>
                         @foreach ($assignedTasks as $task)
-                        <tr class="{{ $task->status == 'closed' ? 'closed-task' : '' }}" style="display: {{ $task->status == 'closed' ? 'none' : '' }}">
+                        <tr>
                             <td class="text-left">
                                 <a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-primary btn-sm">{{ $task->id }}</a>
                             </td>
@@ -78,19 +88,9 @@
                     </tbody>
                 </table>
             </div>
-
-            {{ $assignedTasks->links() }} <!-- Pagination -->
+            {{ $assignedTasks->links() }}
         </div>
     </div>
 </div>
 
-<script>
-    function toggleClosedTasks() {
-        document.querySelectorAll('.closed-task').forEach(row => {
-            row.style.display = (row.style.display === 'none') ? '' : 'none';
-        });
-    }
-</script>
-
-</div>
 @endsection

@@ -13,19 +13,27 @@ use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // $tasks = Task::with(['project', 'resourceAssignedTo'])->paginate(10); // Paginate with 10 items per page
-        // return view('tasks.index', compact('tasks'));
-
         $user = auth()->user();
-        $assignedTasks = Task::where('assignee_id', $user->id)->paginate(10);
-        $createdTasks = Task::where('resource_assigned_to', $user->id)->paginate(10);
+        $showClosed = $request->query('show_closed', false); // Default-ஆக `closed` tasks காட்டாமல்
+
+        $assignedTasksQuery = Task::where('assignee_id', $user->id);
+        $createdTasksQuery = Task::where('resource_assigned_to', $user->id);
+
+        if (!$showClosed) {
+            $assignedTasksQuery->where('status', '!=', 'closed');
+            $createdTasksQuery->where('status', '!=', 'closed');
+        }
+
+        $assignedTasks = $assignedTasksQuery->paginate(10);
+        $createdTasks = $createdTasksQuery->paginate(10);
+
         $employees = Employee::all();
-        return view('tasks.index', compact('assignedTasks', 'createdTasks', 'employees'));
 
-
+        return view('tasks.index', compact('assignedTasks', 'createdTasks', 'employees', 'showClosed'));
     }
+
 
     public function create()
     {
